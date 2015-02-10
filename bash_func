@@ -1,0 +1,45 @@
+#!/bin/bash
+export LANG=en_US.utf8
+
+#case insensitive match
+shopt -s nocasematch
+
+#Go up to parent directory
+#no parameter: equivalent to cd ..
+#parameter is a number: go to number of levels of parent directory
+#parameter is a string: go to the nearest parent directory matching the string
+function up {
+	if [[ $# -eq 0 ]]
+	then
+		cd ..
+	elif [[ $# -eq 1 ]]
+	then
+		#for i in {1..$1} does not work, as $1 is a variable
+		let levels=0
+		for (( i=1; i <= $1; i++ ))
+		do
+			cd ..
+			let levels++
+		done
+		#$1 is not a number
+		if [[ $levels -eq 0 ]]
+		then
+			let found=1
+			cwd="$(pwd)"
+			while [[ ${pwd} != / ]]
+			do
+				if [[ ${PWD##*/} =~ ^$1.* ]]
+				then
+					let found=0
+					break
+				fi
+				cd ..
+			done
+			if [[ found -eq 1 ]]
+			then
+				cd $cwd
+			fi
+		fi
+	fi
+}
+
