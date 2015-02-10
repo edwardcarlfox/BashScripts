@@ -43,3 +43,22 @@ function up {
 	fi
 }
 
+function dn {
+	if [[ $# -eq 0 ]]
+	then
+		let count=0
+		d=""
+		for i in `find . -maxdepth 1 -type d`
+		do
+			if [[ $i != . ]]
+			then
+				let count++
+				d=$i
+			fi
+		done
+		if [[ $count -eq 1 ]]
+		then
+			cd $d
+		fi
+	fi
+}
