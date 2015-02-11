@@ -55,6 +55,11 @@ function dn {
 				let count++
 				d=$i
 			fi
+			#if more than 2 directories, break directly
+			if [[ $count -eq 2 ]]
+			then
+				break
+			fi
 		done
 		if [[ $count -eq 1 ]]
 		then
