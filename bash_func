@@ -41,7 +41,7 @@ function up {
 			fi
 		fi
 	fi
-	la
+	ls -A --color=auto
 }
 
 #Go to a subdirectory
@@ -72,10 +72,10 @@ function dn {
 	else
 		echo Choose directory:
 		read choice
-		if [[ $choice -ge 1 ]] && [[ $choice -lt $index ]]
+		if [[ $choice -ge 1 ]] && [[ $choice -le $index ]]
 		then
 			cd ${dirs[$choice]}
 		fi
 	fi
-	la
+	ls -A --color=auto
 }
