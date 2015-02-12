@@ -41,6 +41,7 @@ function up {
 			fi
 		fi
 	fi
+	la
 }
 
 #Go to a subdirectory
@@ -48,48 +49,33 @@ function up {
 #no parameter: list all subdirectories and choose one to go to
 #one parameter: list all matching subdirectories and choose one to go to
 function dn {
-	if [[ $# -eq 0 ]]
-	then
-		let count=0
-		d=""
-		for i in `find . -maxdepth 1 -type d`
-		do
-			if [[ $i != . ]]
-			then
-				let count++
-				d=$i
-			fi
-			#if more than 2 directories, break directly
-			if [[ $count -eq 2 ]]
-			then
-				break
-			fi
-		done
-		if [[ $count -eq 1 ]]
-		then
-			cd $d
-		fi
-	fi
 	prefix=
 	if [[ $# -ne 0 ]]
 	then
 		prefix=$1
 	fi
 	declare -a dirs
-	let index=1
+	let index=0
 	for i in `find . -maxdepth 1 -type d`
 	do
-		if [[ ${i##*/} =~ ^$prefix.* ]]
+		if [[ ${i##*/} =~ ^$prefix.* ]] && [[ ${i##*/} != . ]]
 		then
+			let index++
 			echo $index: ${i##*/}
 			dirs[$index]=${i##*/}
-			let index++
 		fi
 	done
-	echo Choose directory:
-	read choice
-	if [[ $choice -ge 1 ]] && [[ $choice -lt $index ]]
+	#only one subdirectory
+	if [[ $index -eq 1 ]]
 	then
-		cd ${dirs[$choice]}
+		cd ${dirs[1]}
+	else
+		echo Choose directory:
+		read choice
+		if [[ $choice -ge 1 ]] && [[ $choice -lt $index ]]
+		then
+			cd ${dirs[$choice]}
+		fi
 	fi
+	la
 }
