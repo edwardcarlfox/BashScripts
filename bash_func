@@ -58,6 +58,12 @@ function dn {
 	let index=0
 	for i in `find . -maxdepth 1 -type d`
 	do
+		#if exact match, go there directly
+		if [[ ${i##*/} =~ ^$prefix ]]
+		then
+			cd ${i##*/}
+			return
+		fi
 		if [[ ${i##*/} =~ ^$prefix.* ]] && [[ ${i##*/} != . ]]
 		then
 			let index++
@@ -65,6 +71,12 @@ function dn {
 			dirs[$index]=${i##*/}
 		fi
 	done
+	#if no match, do nothing
+	if [[ $index -eq 0 ]]
+	then
+		ls -A --color=auto
+		return
+	fi
 	#only one subdirectory
 	if [[ $index -eq 1 ]]
 	then
