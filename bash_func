@@ -73,11 +73,11 @@ function dn {
 		fi
 	done
 	#if no match, do nothing
-	#if [[ $index -eq 0 ]]
-	#then
-		#ls -A --color=auto
-		#return
-	#fi
+	if [[ $index -eq 0 ]]
+	then
+		ls -A --color=auto
+		return
+	fi
 	#only one subdirectory
 	if [[ $index -eq 1 ]]
 	then
