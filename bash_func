@@ -41,7 +41,7 @@ function up {
 			fi
 		fi
 	fi
-	ls -A --color=auto
+	la
 }
 
 #Go to a subdirectory
@@ -62,7 +62,7 @@ function dn {
 		if [[ ${i##*/} == $prefix ]]
 		then
 			cd ${i##*/}
-			ls -A --color=auto
+			la
 			return
 		fi
 		if [[ ${i##*/} =~ ^$prefix.* ]] && [[ ${i##*/} != . ]]
@@ -75,7 +75,7 @@ function dn {
 	#if no match, do nothing
 	if [[ $index -eq 0 ]]
 	then
-		ls -A --color=auto
+		la
 		return
 	fi
 	#only one subdirectory
@@ -90,5 +90,5 @@ function dn {
 			cd ${dirs[$choice]}
 		fi
 	fi
-	ls -A --color=auto
+	la
 }
