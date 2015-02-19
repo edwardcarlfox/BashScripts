@@ -1,0 +1,4 @@
+#!/bin/bash
+
+alias run='cmd /c start'
+alias exp='explorer .'
