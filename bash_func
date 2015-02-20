@@ -68,7 +68,6 @@ function dn {
 		if [[ ${i##*/} =~ ^$prefix.* ]] && [[ ${i##*/} != . ]]
 		then
 			let index++
-			echo $index: ${i##*/}
 			dirs[$index]=${i##*/}
 		fi
 	done
@@ -83,6 +82,12 @@ function dn {
 	then
 		cd ${dirs[1]}
 	else
+		let index=0
+		for d in ${dirs[@]}
+		do
+			let index++
+			echo $index: $d
+		done
 		echo Choose directory:
 		read choice
 		if [[ $choice -ge 1 ]] && [[ $choice -le $index ]]
