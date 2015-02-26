@@ -54,6 +54,21 @@ function dn {
 	then
 		prefix=$1
 	fi
+	let length=`expr length "$prefix"`
+	if [[ $length -gt 0 ]]
+	then
+		let slash_index=`expr index "$prefix" "/"`
+		if [[ $slash_index -eq 1 ]]
+		then
+			cd $prefix
+			return
+		fi
+	fi
+	if [[ $slash_index -eq $length && $length -gt 0 ]]
+	then
+		let length--
+		prefix=${prefix:0:$length}
+	fi
 	declare -a dirs
 	let index=0
 	for i in `find . -maxdepth 1 -type d`
