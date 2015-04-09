@@ -2,3 +2,7 @@
 
 alias run='cmd /c start'
 alias exp='explorer .'
+
+#specific for cygwin
+alias winpath='cygpath -w '
+alias unixpath='cygpath -u '

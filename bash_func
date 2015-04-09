@@ -4,6 +4,61 @@ export LANG=en_US.utf8
 #case insensitive match
 shopt -s nocasematch
 
+#tail and grep
+function tgrep {
+	file=$1
+	shift
+	tail -f $file | grep --line-buffered $@
+}
+
+declare -a dirlist
+declare -a reglist
+#push directory and save it
+function push {
+	let index=1
+	let found=0
+	for reg in ${reglist[@]}
+	do
+		if [[ $reg == $1 ]]
+		then
+			let found=1
+			break
+		fi
+		let index++
+	done
+	if [[ $found -eq 1 ]]
+	then
+		dirlist[$index]="$(pwd)"
+	else
+		reglist[$index]=$1
+		dirlist[$index]="$(pwd)"
+	fi
+}
+
+#pop directory
+function pop {
+	let index=1
+	for reg in ${reglist[@]}
+	do
+		if [[ $reg == $1 ]]
+		then
+			cd ${dirlist[$index]}
+			return
+		fi
+		let index++
+	done
+}
+
+#list directory list
+function listd {
+	let index=1
+	for reg in ${reglist[@]}
+	do
+		echo $reg: ${dirlist[$index]}
+		let index++
+	done
+}
+
 #Go up to parent directory
 #no parameter: equivalent to cd ..
 #parameter is a number: go to number of levels of parent directory
