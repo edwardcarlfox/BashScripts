@@ -1,6 +1,8 @@
 # BashScripts
 A repository of bash scripts.
 
-To reduce the impact of the .bashrc file, include the bash_func file in .bashrc using:
+Just include the .my_profile in the shell resource file e.g. .bash_profile:
 
-. ./bash_func
+```
+. .my_profile
+```
