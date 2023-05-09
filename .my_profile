@@ -1,0 +1,59 @@
+# go up to parent directory
+# no arg: go up 1 level
+# 1 arg: go up #arg level
+function up() {
+	level=1;
+	if [[ $# -ne 0 ]]
+	then
+		level=$1
+	fi
+	for i in {1..$level}
+	do
+		cd ..
+	done
+	ls
+}
+
+# go down into child directory
+# if multiple matches, choose one
+# no arg: go down to any child diretory
+# 1 arg: partial name of the child directory
+function dn() {
+	ifs=$IFS
+	IFS=$'\n'
+	name="."
+	if [[ $# -ne 0 ]]
+	then
+		name=$1
+	fi
+	declare -a dirs
+	index=1
+	for dir in $(ls | grep -i $name)
+	do
+		dirs[$index]=$dir
+		index=$((index+1))
+	done
+	count=${#dirs[@]}
+	if [[ $count -eq 1 ]]
+	then
+		cd ${dirs[1]}
+	elif [[ $count -ne 0 ]]
+	then
+		index=1
+		for dir in $dirs
+		do
+			echo $index $dir
+			index=$((index+1))
+		done
+		read choice
+		if [[ $choice -le $count && $choice -ge 1 ]]
+		then
+			cd ${dirs[$choice]}
+		fi
+	fi
+	ls
+	IFS=$ifs
+}
+
+alias restartshell="exec zsh"
+alias editprofile="vim ~/.my_profile && restartshell"
